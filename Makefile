@@ -1,25 +1,15 @@
-OUTDIR:=bin/
-LIBDIR:=$(OUTDIR)lib/
-INCDIR:=$(OUTDIR)include/
+include .knightos/variables.make
 
-all: package
+INIT=/bin/fileman
 
-package: $(LIBDIR)config $(INCDIR)config.inc
-	kpack configlib-0.1.0.pkg $(OUTDIR)
+ALL_TARGETS:=$(LIB)config $(INCLUDE)config.inc
 
-$(LIBDIR)config: config.asm
-	mkdir -p $(LIBDIR)
-	$(AS) $(ASFLAGS) --define "$(PLATFORM)" --include "$(INCLUDE);$(PACKAGEPATH)/config/" config.asm $(LIBDIR)config
+$(LIB)config: config.asm
+	mkdir -p $(LIB)
+	$(AS) $(ASFLAGS) --listing $(OUT)config.list config.asm $(LIB)config
 
-$(INCDIR)config.inc:
-	mkdir -p $(INCDIR)
-	cp config.inc $(INCDIR)config.inc
+$(INCLUDE)config.inc: config.inc
+	mkdir -p $(INCLUDE)
+	cp config.inc $(INCLUDE)
 
-clean:
-	rm -rf $(OUTDIR)
-	rm -rf configlib-0.1.0.pkg
-
-install: package
-	kpack -e -s configlib-0.1.0.pkg $(PREFIX)
-
-.PHONY: all clean
+include .knightos/sdk.make
