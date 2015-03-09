@@ -58,7 +58,12 @@ corelib_streamReadLine:
 .end:
         xor a
         ld (ix), a
+    pop ix
+    cp a
+    ret
 .error:
+        cp errEndOfStream
+        jr z, .end
     pop ix
     ret
     

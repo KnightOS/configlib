@@ -2,7 +2,7 @@ include .knightos/variables.make
 
 INIT=/bin/fileman
 
-ALL_TARGETS:=$(LIB)config $(INCLUDE)config.inc
+ALL_TARGETS:=$(LIB)config $(INC)config.inc
 
 $(LIB)config: config.asm
 	mkdir -p $(LIB)
